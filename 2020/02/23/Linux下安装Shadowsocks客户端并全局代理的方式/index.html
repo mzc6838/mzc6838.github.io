@@ -22,19 +22,22 @@
     var CONFIG = {"hostname":"mzc6838.github.io","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"changyan","storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="hello world!">
+  <meta name="description" content="起因因为学校要学嵌入式，要求装ubuntu，所以就想着把系统好好弄一下做好长期使用的准备。在安装完了Chrome之后想同步书签，自然想到了Shadowsocks来进行http和https的代理。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="first post">
-<meta property="og:url" content="http://mzc6838.github.io/2020/02/11/first-post/index.html">
+<meta property="og:title" content="Linux下安装Shadowsocks客户端并全局代理的方式">
+<meta property="og:url" content="http://mzc6838.github.io/2020/02/23/Linux%E4%B8%8B%E5%AE%89%E8%A3%85Shadowsocks%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%B9%B6%E5%85%A8%E5%B1%80%E4%BB%A3%E7%90%86%E7%9A%84%E6%96%B9%E5%BC%8F/index.html">
 <meta property="og:site_name" content="YY的Blog~">
-<meta property="og:description" content="hello world!">
+<meta property="og:description" content="起因因为学校要学嵌入式，要求装ubuntu，所以就想着把系统好好弄一下做好长期使用的准备。在安装完了Chrome之后想同步书签，自然想到了Shadowsocks来进行http和https的代理。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-02-11T03:07:31.000Z">
-<meta property="article:modified_time" content="2020-02-11T03:16:15.104Z">
+<meta property="article:published_time" content="2020-02-23T15:35:18.000Z">
+<meta property="article:modified_time" content="2020-02-23T15:57:34.124Z">
 <meta property="article:author" content="mzc6838">
+<meta property="article:tag" content="Shadowsocks">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="polipo">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://mzc6838.github.io/2020/02/11/first-post/">
+<link rel="canonical" href="http://mzc6838.github.io/2020/02/23/Linux%E4%B8%8B%E5%AE%89%E8%A3%85Shadowsocks%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%B9%B6%E5%85%A8%E5%B1%80%E4%BB%A3%E7%90%86%E7%9A%84%E6%96%B9%E5%BC%8F/">
 
 
 <script id="page-configurations">
@@ -46,7 +49,7 @@
   };
 </script>
 
-  <title>first post | YY的Blog~</title>
+  <title>Linux下安装Shadowsocks客户端并全局代理的方式 | YY的Blog~</title>
   
 
 
@@ -183,7 +186,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://mzc6838.github.io/2020/02/11/first-post/">
+    <link itemprop="mainEntityOfPage" href="http://mzc6838.github.io/2020/02/23/Linux%E4%B8%8B%E5%AE%89%E8%A3%85Shadowsocks%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%B9%B6%E5%85%A8%E5%B1%80%E4%BB%A3%E7%90%86%E7%9A%84%E6%96%B9%E5%BC%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/ava.jpg">
@@ -196,7 +199,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          first post
+          Linux下安装Shadowsocks客户端并全局代理的方式
         </h1>
 
         <div class="post-meta">
@@ -207,7 +210,18 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-02-11 11:07:31 / 修改时间：11:16:15" itemprop="dateCreated datePublished" datetime="2020-02-11T11:07:31+08:00">2020-02-11</time>
+              <time title="创建时间：2020-02-23 23:35:18 / 修改时间：23:57:34" itemprop="dateCreated datePublished" datetime="2020-02-23T23:35:18+08:00">2020-02-23</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index">
+                    <span itemprop="name">操作系统</span>
+                  </a>
+                </span>
             </span>
 
           
@@ -221,7 +235,30 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="hello-world"><a href="#hello-world" class="headerlink" title="hello world!"></a>hello world!</h1>
+        <h1 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h1><p>因为学校要学嵌入式，要求装ubuntu，所以就想着把系统好好弄一下做好长期使用的准备。在安装完了Chrome之后想同步书签，自然想到了Shadowsocks来进行http和https的代理。</p>
+<a id="more"></a>
+<h1 id="Shadowsocks配置方法"><a href="#Shadowsocks配置方法" class="headerlink" title="Shadowsocks配置方法"></a>Shadowsocks配置方法</h1><p>首先安装Shadowsocks：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install shadowsocks</span><br></pre></td></tr></table></figure>
+<p>接下来配置Shadowsocks的配置文件，使其连接到ss服务器：<br>编辑文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/shadowsocks/config.json</span><br></pre></td></tr></table></figure>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"> <span class="attr">"server"</span>: <span class="string">"xxxx.com"</span>,</span><br><span class="line"> <span class="attr">"server_port"</span>: <span class="number">52239</span>,</span><br><span class="line"> <span class="attr">"local_address"</span>: <span class="string">"127.0.0.1"</span>,</span><br><span class="line"> <span class="attr">"local_port"</span>: <span class="number">1080</span>,</span><br><span class="line"> <span class="attr">"password"</span>: <span class="string">"SOME_PASSWORD"</span>,</span><br><span class="line"> <span class="attr">"timeout"</span>: <span class="number">600</span>,</span><br><span class="line"> <span class="attr">"method"</span>: <span class="string">"aes-256-cfb"</span>,</span><br><span class="line"> <span class="attr">"fast_open"</span>: <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>保存后将客户端运行在后台：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup sslocal -c /etc/shadowsocks/config.json /dev/null 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
+<p>至此，Shadowsocks配置工作就完成了</p>
+<h1 id="polipo配置方法"><a href="#polipo配置方法" class="headerlink" title="polipo配置方法"></a>polipo配置方法</h1><p>首先安装polipo：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install polipo</span><br></pre></td></tr></table></figure>
+<p>接下来配置polipo，使其连接到本地Shadowsocks代理:<br>编辑文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/polipo/config</span><br></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># This file only needs to list configuration variables that deviate</span><br><span class="line"># from the default values.  See /usr/share/doc/polipo/examples/config.sample</span><br><span class="line"># and "polipo -v" for variables you can tweak and further information.</span><br><span class="line"></span><br><span class="line">logSyslog = true</span><br><span class="line">logFile = /var/log/polipo/polipo.log</span><br><span class="line"></span><br><span class="line">socksParentProxy = "127.0.0.1:1080"</span><br><span class="line">socksProxyType = socks5</span><br><span class="line"></span><br><span class="line">chunkHighMark = 50331648</span><br><span class="line">objectHighMark = 16384</span><br><span class="line"></span><br><span class="line">serverMaxSlots = 64</span><br><span class="line">serverSlots = 16</span><br><span class="line">serverSlots1 = 32</span><br><span class="line"></span><br><span class="line">proxyAddress = "0.0.0.0"</span><br><span class="line">proxyPort = 8123</span><br></pre></td></tr></table></figure>
+<p>重启polipo服务：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo service polipo restart</span><br></pre></td></tr></table></figure>
+<p>至此，polipo配置工作完成。</p>
+<h1 id="更改全局环境变量，使代理生效"><a href="#更改全局环境变量，使代理生效" class="headerlink" title="更改全局环境变量，使代理生效"></a>更改全局环境变量，使代理生效</h1><p>执行</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export http_proxy="http://127.0.0.1:8123"</span><br></pre></td></tr></table></figure>
+<p>此时，Terminal已经可以访问外部网站了，可以使用curl测试。<br>若希望系统内所有app均使用代理，则需要在设置-&gt;网络中编辑代理选项，将http和https代理均改为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">地址：127.0.0.1</span><br><span class="line">端口：8123</span><br></pre></td></tr></table></figure>
+<p>即可。</p>
+
     </div>
 
     
@@ -229,17 +266,23 @@
     
 
       <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/Shadowsocks/" rel="tag"><i class="fa fa-tag"></i> Shadowsocks</a>
+              <a href="/tags/Linux/" rel="tag"><i class="fa fa-tag"></i> Linux</a>
+              <a href="/tags/polipo/" rel="tag"><i class="fa fa-tag"></i> polipo</a>
+          </div>
 
         
 
 
         
     <div class="post-nav">
-      <div class="post-nav-item"></div>
       <div class="post-nav-item">
-    <a href="/2020/02/19/RecyclerView%E9%A3%9F%E7%94%A8%E6%8C%87%E5%8D%97/" rel="next" title="RecyclerView食用指南">
-      RecyclerView食用指南 <i class="fa fa-chevron-right"></i>
+    <a href="/2020/02/19/markdown%E6%8A%98%E5%8F%A0%E4%BB%A3%E7%A0%81%E5%9D%97%E7%9A%84%E6%96%B9%E6%B3%95/" rel="prev" title="markdown折叠代码块的方法">
+      <i class="fa fa-chevron-left"></i> markdown折叠代码块的方法
     </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -299,7 +342,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#hello-world"><span class="nav-number">1.</span> <span class="nav-text">hello world!</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#起因"><span class="nav-number">1.</span> <span class="nav-text">起因</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Shadowsocks配置方法"><span class="nav-number">2.</span> <span class="nav-text">Shadowsocks配置方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#polipo配置方法"><span class="nav-number">3.</span> <span class="nav-text">polipo配置方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#更改全局环境变量，使代理生效"><span class="nav-number">4.</span> <span class="nav-text">更改全局环境变量，使代理生效</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
