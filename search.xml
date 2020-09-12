@@ -200,4 +200,23 @@ for i in a:
         <tag>Linux</tag>
       </tags>
   </entry>
+  <entry>
+    <title>关于tensorflow解析csv的问题</title>
+    <url>/2020/09/12/%E5%85%B3%E4%BA%8Etensorflow%E8%A7%A3%E6%9E%90csv%E7%9A%84%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h1 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h1><p>初学tensorflow，看教程中引入波士顿房价数据，自己使用curl导入后，在csv解析过程中出现了问题。错误信息如下图所示<br><img src="/2020/09/12/%E5%85%B3%E4%BA%8Etensorflow%E8%A7%A3%E6%9E%90csv%E7%9A%84%E9%97%AE%E9%A2%98/error.png" alt="错误提示"></p>
+<a id="more"></a>
+<h1 id="错误原因"><a href="#错误原因" class="headerlink" title="错误原因"></a>错误原因</h1><p>原始csv数据在网站上以空格字符和换行符分割，在本地处理该数据时，只是单纯地去掉了换行符。因为自己觉得空格也能被解析，直到用excel打开这个csv文件后发现不对：<br><img src="/2020/09/12/%E5%85%B3%E4%BA%8Etensorflow%E8%A7%A3%E6%9E%90csv%E7%9A%84%E9%97%AE%E9%A2%98/befor.png" alt="错误的csv格式"><br>看起来是正确的，直到我把第一列拉宽：<br><img src="/2020/09/12/%E5%85%B3%E4%BA%8Etensorflow%E8%A7%A3%E6%9E%90csv%E7%9A%84%E9%97%AE%E9%A2%98/after.png" alt="第一列"></p>
+<h1 id="更正方式"><a href="#更正方式" class="headerlink" title="更正方式"></a>更正方式</h1><p>使用python将原始文件打开，因为有的空缺部分是两个空格，有的是三个空格字符，所以这次使用了两次.replace()方法：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">removenbsp</span><span class="params">()</span>:</span></span><br><span class="line">    f = open(<span class="string">'boston_housing_t.csv'</span>, <span class="string">"r"</span>)</span><br><span class="line">    o = open(<span class="string">'boston_housing_t_t.csv'</span>, <span class="string">"w"</span>)</span><br><span class="line">    l = f.readlines()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> l:</span><br><span class="line">        t = i.replace(<span class="string">' '</span>, <span class="string">','</span>)</span><br><span class="line">        t = t[<span class="number">1</span>:]</span><br><span class="line">        t = t.replace(<span class="string">',,'</span>, <span class="string">','</span>)</span><br><span class="line">        t = t.replace(<span class="string">',,'</span>, <span class="string">','</span>)</span><br><span class="line">        o.write(t)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    f.close()</span><br><span class="line">    o.close()</span><br></pre></td></tr></table></figure>
+<p>代码执行后的csv文件中的数据格式就可以正确解析了：<br><img src="/2020/09/12/%E5%85%B3%E4%BA%8Etensorflow%E8%A7%A3%E6%9E%90csv%E7%9A%84%E9%97%AE%E9%A2%98/correct.png" alt="正确的解析"></p>
+]]></content>
+      <categories>
+        <category>python</category>
+        <category>机器学习</category>
+      </categories>
+      <tags>
+        <tag>Tensorflow</tag>
+        <tag>csv</tag>
+      </tags>
+  </entry>
 </search>

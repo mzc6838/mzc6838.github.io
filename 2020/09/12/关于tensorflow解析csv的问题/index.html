@@ -24,19 +24,26 @@
     var CONFIG = {"hostname":"mzc6838.github.io","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"changyan","storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="过气程序猿&#x2F;菜的一批">
-<meta property="og:type" content="website">
-<meta property="og:title" content="categories">
-<meta property="og:url" content="http://mzc6838.github.io/categories/index.html">
+  <meta name="description" content="起因初学tensorflow，看教程中引入波士顿房价数据，自己使用curl导入后，在csv解析过程中出现了问题。错误信息如下图所示">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于tensorflow解析csv的问题">
+<meta property="og:url" content="http://mzc6838.github.io/2020/09/12/%E5%85%B3%E4%BA%8Etensorflow%E8%A7%A3%E6%9E%90csv%E7%9A%84%E9%97%AE%E9%A2%98/index.html">
 <meta property="og:site_name" content="YY的Blog~">
-<meta property="og:description" content="过气程序猿&#x2F;菜的一批">
+<meta property="og:description" content="起因初学tensorflow，看教程中引入波士顿房价数据，自己使用curl导入后，在csv解析过程中出现了问题。错误信息如下图所示">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-02-19T12:21:25.000Z">
-<meta property="article:modified_time" content="2020-02-19T12:24:41.970Z">
+<meta property="og:image" content="http://mzc6838.github.io/2020/09/12/%E5%85%B3%E4%BA%8Etensorflow%E8%A7%A3%E6%9E%90csv%E7%9A%84%E9%97%AE%E9%A2%98/error.png">
+<meta property="og:image" content="http://mzc6838.github.io/2020/09/12/%E5%85%B3%E4%BA%8Etensorflow%E8%A7%A3%E6%9E%90csv%E7%9A%84%E9%97%AE%E9%A2%98/befor.png">
+<meta property="og:image" content="http://mzc6838.github.io/2020/09/12/%E5%85%B3%E4%BA%8Etensorflow%E8%A7%A3%E6%9E%90csv%E7%9A%84%E9%97%AE%E9%A2%98/after.png">
+<meta property="og:image" content="http://mzc6838.github.io/2020/09/12/%E5%85%B3%E4%BA%8Etensorflow%E8%A7%A3%E6%9E%90csv%E7%9A%84%E9%97%AE%E9%A2%98/correct.png">
+<meta property="article:published_time" content="2020-09-12T03:33:22.000Z">
+<meta property="article:modified_time" content="2020-09-12T04:36:01.366Z">
 <meta property="article:author" content="mzc6838">
+<meta property="article:tag" content="Tensorflow">
+<meta property="article:tag" content="csv">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://mzc6838.github.io/2020/09/12/%E5%85%B3%E4%BA%8Etensorflow%E8%A7%A3%E6%9E%90csv%E7%9A%84%E9%97%AE%E9%A2%98/error.png">
 
-<link rel="canonical" href="http://mzc6838.github.io/categories/">
+<link rel="canonical" href="http://mzc6838.github.io/2020/09/12/%E5%85%B3%E4%BA%8Etensorflow%E8%A7%A3%E6%9E%90csv%E7%9A%84%E9%97%AE%E9%A2%98/">
 
 
 <script id="page-configurations">
@@ -44,12 +51,11 @@
   CONFIG.page = {
     sidebar: "",
     isHome: false,
-    isPost: false
+    isPost: true
   };
 </script>
 
-  <title>categories | YY的Blog~
-  </title>
+  <title>关于tensorflow解析csv的问题 | YY的Blog~</title>
   
 
 
@@ -177,52 +183,108 @@
       <div class="main-inner">
         <div class="content-wrap">
           
-  
-  
 
           <div class="content">
             
 
   <div class="posts-expand">
-    
-    
-    
-    <div class="post-block" lang="zh-CN">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://mzc6838.github.io/2020/09/12/%E5%85%B3%E4%BA%8Etensorflow%E8%A7%A3%E6%9E%90csv%E7%9A%84%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/ava.jpg">
+      <meta itemprop="name" content="mzc6838">
+      <meta itemprop="description" content="过气程序猿/菜的一批">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YY的Blog~">
+    </span>
       <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          关于tensorflow解析csv的问题
+        </h1>
 
-<h1 class="post-title" itemprop="name headline">categories
-</h1>
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
 
-<div class="post-meta">
+              <time title="创建时间：2020-09-12 11:33:22 / 修改时间：12:36:01" itemprop="dateCreated datePublished" datetime="2020-09-12T11:33:22+08:00">2020-09-12</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index">
+                    <span itemprop="name">python</span>
+                  </a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h1><p>初学tensorflow，看教程中引入波士顿房价数据，自己使用curl导入后，在csv解析过程中出现了问题。错误信息如下图所示<br><img src="/2020/09/12/%E5%85%B3%E4%BA%8Etensorflow%E8%A7%A3%E6%9E%90csv%E7%9A%84%E9%97%AE%E9%A2%98/error.png" alt="错误提示"></p>
+<a id="more"></a>
+<h1 id="错误原因"><a href="#错误原因" class="headerlink" title="错误原因"></a>错误原因</h1><p>原始csv数据在网站上以空格字符和换行符分割，在本地处理该数据时，只是单纯地去掉了换行符。因为自己觉得空格也能被解析，直到用excel打开这个csv文件后发现不对：<br><img src="/2020/09/12/%E5%85%B3%E4%BA%8Etensorflow%E8%A7%A3%E6%9E%90csv%E7%9A%84%E9%97%AE%E9%A2%98/befor.png" alt="错误的csv格式"><br>看起来是正确的，直到我把第一列拉宽：<br><img src="/2020/09/12/%E5%85%B3%E4%BA%8Etensorflow%E8%A7%A3%E6%9E%90csv%E7%9A%84%E9%97%AE%E9%A2%98/after.png" alt="第一列"></p>
+<h1 id="更正方式"><a href="#更正方式" class="headerlink" title="更正方式"></a>更正方式</h1><p>使用python将原始文件打开，因为有的空缺部分是两个空格，有的是三个空格字符，所以这次使用了两次.replace()方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">removenbsp</span><span class="params">()</span>:</span></span><br><span class="line">    f = open(<span class="string">'boston_housing_t.csv'</span>, <span class="string">"r"</span>)</span><br><span class="line">    o = open(<span class="string">'boston_housing_t_t.csv'</span>, <span class="string">"w"</span>)</span><br><span class="line">    l = f.readlines()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> l:</span><br><span class="line">        t = i.replace(<span class="string">' '</span>, <span class="string">','</span>)</span><br><span class="line">        t = t[<span class="number">1</span>:]</span><br><span class="line">        t = t.replace(<span class="string">',,'</span>, <span class="string">','</span>)</span><br><span class="line">        t = t.replace(<span class="string">',,'</span>, <span class="string">','</span>)</span><br><span class="line">        o.write(t)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    f.close()</span><br><span class="line">    o.close()</span><br></pre></td></tr></table></figure>
+<p>代码执行后的csv文件中的数据格式就可以正确解析了：<br><img src="/2020/09/12/%E5%85%B3%E4%BA%8Etensorflow%E8%A7%A3%E6%9E%90csv%E7%9A%84%E9%97%AE%E9%A2%98/correct.png" alt="正确的解析"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/Tensorflow/" rel="tag"><i class="fa fa-tag"></i> Tensorflow</a>
+              <a href="/tags/csv/" rel="tag"><i class="fa fa-tag"></i> csv</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/06/19/find%E4%B8%AD%E5%8A%A0%E5%8F%B7%E9%97%AE%E9%A2%98/" rel="prev" title="find中加号问题">
+      <i class="fa fa-chevron-left"></i> find中加号问题
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
   
 
-</div>
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
-          <div class="category-all-page">
-            <div class="category-all-title">
-              目前共计 5 个分类
-            </div>
-            <div class="category-all">
-              <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/python/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8D%9A%E5%AE%A2%E5%BB%BA%E8%AE%BE/">博客建设</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a><span class="category-list-count">2</span></li></ul>
-            </div>
-          </div>
-        
-      </div>
-      
-      
-      
-    </div>
-    
-
-    
-    
-    
   </div>
 
 
@@ -274,6 +336,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#起因"><span class="nav-number">1.</span> <span class="nav-text">起因</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#错误原因"><span class="nav-number">2.</span> <span class="nav-text">错误原因</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#更正方式"><span class="nav-number">3.</span> <span class="nav-text">更正方式</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
