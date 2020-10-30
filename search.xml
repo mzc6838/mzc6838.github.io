@@ -219,4 +219,32 @@ for i in a:
         <tag>csv</tag>
       </tags>
   </entry>
+  <entry>
+    <title>二进制数转换为BCD码的一种算法</title>
+    <url>/2020/10/30/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%95%B0%E8%BD%AC%E6%8D%A2%E4%B8%BABCD%E7%A0%81%E7%9A%84%E4%B8%80%E7%A7%8D%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h1><p>七段数码管想要显示十进制数字，需要将原始输入的二进制数字转换为每一位对应的长度为7的二进制数。例如，数字5对应数码管显示应该为</p>
+<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="comment">//以共阴极为例</span></span><br><span class="line"><span class="number">5</span>: seg_t = <span class="number">7'b1011011</span>;</span><br></pre></td></tr></table></figure>
+<p>但是如果待显示的数字为二进制表示的一个数，并且在fpga对除法运算的效率极差的情况下，是否可用一种组合逻辑电路将该数字转换成BCD码，进而可以方便地使用数码管显示。</p>
+<a id="more"></a>
+<h1 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h1><p>网上找到了相关二进制转BCD码的一个算法，并且提供了相关例程代码。<br>该算法的具体过程如下：</p>
+<ol>
+<li>如果某列的数比5大，则给该列的数+3。</li>
+<li>将列中所有的数左移1位，末尾用原数的对应位二进制补上。</li>
+<li>如果左移8位后，不会再产生变化，则算法结束，此时列表中的对应列就是所需要的BCD编码。</li>
+<li>回到步骤1继续执行。</li>
+</ol>
+<p>算法示例使用的原数为8位二进制的数，但以相同的算法，可以做到任意位数二进制数转BCD编码。</p>
+<p>例程代码如下：</p>
+<figure class="highlight verilog"><table><tr><td class="code"><pre><span class="line"><span class="keyword">module</span> BCD(</span><br><span class="line">    <span class="keyword">input</span> [<span class="number">7</span>:<span class="number">0</span>] binary,</span><br><span class="line">    <span class="keyword">output</span> <span class="keyword">reg</span> [<span class="number">3</span>:<span class="number">0</span>] Hundreds,</span><br><span class="line">    <span class="keyword">output</span> <span class="keyword">reg</span> [<span class="number">3</span>:<span class="number">0</span>] Tens,</span><br><span class="line">    <span class="keyword">output</span> <span class="keyword">reg</span> [<span class="number">3</span>:<span class="number">0</span>] Ones</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">integer</span> i;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">always</span> @(binary) <span class="keyword">begin</span></span><br><span class="line">        <span class="comment">//置位</span></span><br><span class="line">        Hundreds = <span class="number">4'd0</span>;</span><br><span class="line">        Tens = <span class="number">4'd0</span>;</span><br><span class="line">        Ones = <span class="number">4'd0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (i = <span class="number">7</span>; i &gt;= <span class="number">0</span>; i = i - <span class="number">1</span>) <span class="keyword">begin</span></span><br><span class="line">            <span class="comment">//大于等于5判断</span></span><br><span class="line">            <span class="keyword">if</span> (Hundreds &gt;= <span class="number">5</span>) </span><br><span class="line">                Hundreds = Hundreds + <span class="number">3</span>;</span><br><span class="line">            <span class="keyword">if</span> (Tens &gt;= <span class="number">5</span>) </span><br><span class="line">                Tens = Tens + <span class="number">3</span>;</span><br><span class="line">            <span class="keyword">if</span> (Ones &gt;= <span class="number">5</span>) </span><br><span class="line">                Ones = Ones + <span class="number">3</span>;</span><br><span class="line">            <span class="comment">//移位</span></span><br><span class="line">            Hundreds = Hundreds &lt;&lt; <span class="number">1</span>;</span><br><span class="line">            Hundreds[<span class="number">0</span>] = Tens[<span class="number">3</span>];</span><br><span class="line">            Tens = Tens &lt;&lt; <span class="number">1</span>;</span><br><span class="line">            Tens[<span class="number">0</span>] = Ones[<span class="number">3</span>];</span><br><span class="line">            Ones = Ones &lt;&lt; <span class="number">1</span>;</span><br><span class="line">            Ones[<span class="number">0</span>] = binary[i];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">endmodule</span></span><br></pre></td></tr></table></figure>
+<p>网站链接在这里：<a href="https://my.eng.utah.edu/~nmcdonal/Tutorials/BCDTutorial/BCDConversion.html" target="_blank" rel="noopener">Binary to BCD</a></p>
+]]></content>
+      <categories>
+        <category>verilog</category>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+        <tag>verilog</tag>
+      </tags>
+  </entry>
 </search>
