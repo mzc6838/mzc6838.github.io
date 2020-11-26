@@ -42,6 +42,70 @@
     <content><![CDATA[<h1 id="hello-world"><a href="#hello-world" class="headerlink" title="hello world!"></a>hello world!</h1>]]></content>
   </entry>
   <entry>
+    <title>find中加号问题</title>
+    <url>/2020/06/19/find%E4%B8%AD%E5%8A%A0%E5%8F%B7%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h1 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h1><p>安装galileo编译链时有个脚本，怎么都装不进去，报错为：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sudo ./install_script.sh  </span><br><span class="line">Setting it up...find: 非法权限 `+111<span class="string">'</span></span><br><span class="line"><span class="string">/tmp/tmp.bbrqETRw01/relocate_sdk.sh /home/mzc6838/i586/relocate_sdk.sh</span></span><br><span class="line"><span class="string">SDK could not be set up. Relocate script failed. Abort!</span></span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h1 id="找问题"><a href="#找问题" class="headerlink" title="找问题"></a>找问题</h1><p>既然是find出现的问题，还是+111这种，直接搜索install_script.sh里面“+111”有这么一条：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">executable_files=$(<span class="variable">$SUDO_EXEC</span> find <span class="string">"<span class="variable">$native_sysroot</span>"</span> -<span class="built_in">type</span> f -perm +111 -<span class="built_in">exec</span> <span class="built_in">printf</span> <span class="string">"\"%s\" "</span> &#123;&#125; \; )</span><br></pre></td></tr></table></figure>
+<p>我寻思不对啊，网上找了一圈都说+号可以用，表示权限中任意一个1匹配<br></p>
+<h1 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h1><p>在我重新百度了好久之后，找到了解决办法就是：</p>
+<blockquote>
+<p>用”/“代替”+”</p>
+</blockquote>
+<p>可以，很顶的操作，确实有效。<br>原话是这么说的：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">perm +mode</span><br><span class="line">              This  is  no  longer  supported  (and  has been deprecated since</span><br><span class="line">              2005).  Use -perm &#x2F;mode instead.</span><br></pre></td></tr></table></figure>
+<p>所以这么看来网上那些复制人都是2005年的老古董咯</p>
+]]></content>
+      <categories>
+        <category>操作系统</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>markdown折叠代码块的方法</title>
+    <url>/2020/02/19/markdown%E6%8A%98%E5%8F%A0%E4%BB%A3%E7%A0%81%E5%9D%97%E7%9A%84%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h1><p>&emsp;刚才在迁移远古博客的时候有一段特别特别长的代码段，如果单独放在前端里面显示估计也没几个人看得下去，所以就去查了一下怎么能吧那段代码 既保留 又折叠<br>&emsp;然后就有了下面的方法。</p>
+<a id="more"></a>
+<h1 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h1><p>一般在插入代码段时使用三个`号（esc键下面的符号）<br>在这里要折叠代码段使用如下方法(我是格式警犬不要怪我占篇幅)：</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">details</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">summary</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">mark</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">font</span> <span class="attr">color</span>=<span class="string">darkred</span>&gt;</span>点击查看详细内容<span class="tag">&lt;/<span class="name">font</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">mark</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">summary</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span> - 测试 测试测试<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">pre</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">code</span>&gt;</span>  </span><br><span class="line">for i in a:</span><br><span class="line">    print(i)</span><br><span class="line">        <span class="tag">&lt;/<span class="name">code</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">pre</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">details</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>summary：折叠语法展示的摘要</p>
+<p>details：折叠语法标签</p>
+<p>pre：以原有格式显示元素内的文字是已经格式化的文本。</p>
+<p>blockcode：表示程序的代码块。</p>
+<p>code：指定代码范例。</p>
+<p>经过测试，可以直接在各标签中指定元素的style（即变色，字体大小什么的）</p>
+<h1 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h1><details>
+    <summary>
+        <mark>
+            <font color="darkred">点击查看详细内容</font>
+        </mark>
+    </summary>
+  <p> - 测试 测试测试</p>
+    <pre>
+        <code>  
+for i in a:
+    print(i)
+        </code>
+    </pre>
+</details>
+<br><br>
+
+<blockquote>
+<p>资料来源：<a href="https://www.cnblogs.com/byho/p/10570145.html" target="_blank" rel="noopener">MarkDown折叠语法</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>博客建设</category>
+      </categories>
+      <tags>
+        <tag>markdown</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>RecyclerView食用指南</title>
     <url>/2020/02/19/RecyclerView%E9%A3%9F%E7%94%A8%E6%8C%87%E5%8D%97/</url>
     <content><![CDATA[<h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>&emsp;说起来也是好久没有写过博客了，这东西来来回回就忘了，当时的脑热造就了空白的内容，想想多少还是有些不合适。<br>&emsp;毕竟也是自己的经历，不如写出来分享一下，或者说，备忘吧。</p>
@@ -111,7 +175,7 @@ public void onBindViewHolder(final ViewHolder holder, int position) {
 @Override
 public int getItemCount() {
     return windowList.size();
-}</code></pre><p>}<br>    </code></pre></p>
+}</code></pre><p>}<br>    </p></windowinfo></windowinfo.viewholder></code></pre><p></p>
 </details>
 
 <h2 id="RecyclerView启动！"><a href="#RecyclerView启动！" class="headerlink" title="RecyclerView启动！"></a>RecyclerView启动！</h2><p>&emsp;前面bb了一大堆，就是为这里打基础的，其实这里就很简单了，我们回到MainActivity中来，首先要做的是创建三个变量，分别是:</p>
@@ -134,70 +198,6 @@ public int getItemCount() {
       </categories>
       <tags>
         <tag>RecyclerView</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>markdown折叠代码块的方法</title>
-    <url>/2020/02/19/markdown%E6%8A%98%E5%8F%A0%E4%BB%A3%E7%A0%81%E5%9D%97%E7%9A%84%E6%96%B9%E6%B3%95/</url>
-    <content><![CDATA[<h1 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h1><p>&emsp;刚才在迁移远古博客的时候有一段特别特别长的代码段，如果单独放在前端里面显示估计也没几个人看得下去，所以就去查了一下怎么能吧那段代码 既保留 又折叠<br>&emsp;然后就有了下面的方法。</p>
-<a id="more"></a>
-<h1 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h1><p>一般在插入代码段时使用三个`号（esc键下面的符号）<br>在这里要折叠代码段使用如下方法(我是格式警犬不要怪我占篇幅)：</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">details</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">summary</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">mark</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">font</span> <span class="attr">color</span>=<span class="string">darkred</span>&gt;</span>点击查看详细内容<span class="tag">&lt;/<span class="name">font</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">mark</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">summary</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span> - 测试 测试测试<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">pre</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">code</span>&gt;</span>  </span><br><span class="line">for i in a:</span><br><span class="line">    print(i)</span><br><span class="line">        <span class="tag">&lt;/<span class="name">code</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">pre</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">details</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>summary：折叠语法展示的摘要</p>
-<p>details：折叠语法标签</p>
-<p>pre：以原有格式显示元素内的文字是已经格式化的文本。</p>
-<p>blockcode：表示程序的代码块。</p>
-<p>code：指定代码范例。</p>
-<p>经过测试，可以直接在各标签中指定元素的style（即变色，字体大小什么的）</p>
-<h1 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h1><details>
-    <summary>
-        <mark>
-            <font color=darkred>点击查看详细内容</font>
-        </mark>
-    </summary>
-  <p> - 测试 测试测试</p>
-    <pre>
-        <code>  
-for i in a:
-    print(i)
-        </code>
-    </pre>
-</details>
-<br><br>
-
-<blockquote>
-<p>资料来源：<a href="https://www.cnblogs.com/byho/p/10570145.html" target="_blank" rel="noopener">MarkDown折叠语法</a></p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>博客建设</category>
-      </categories>
-      <tags>
-        <tag>markdown</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>find中加号问题</title>
-    <url>/2020/06/19/find%E4%B8%AD%E5%8A%A0%E5%8F%B7%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<h1 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h1><p>安装galileo编译链时有个脚本，怎么都装不进去，报错为：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sudo ./install_script.sh  </span><br><span class="line">Setting it up...find: 非法权限 `+111<span class="string">'</span></span><br><span class="line"><span class="string">/tmp/tmp.bbrqETRw01/relocate_sdk.sh /home/mzc6838/i586/relocate_sdk.sh</span></span><br><span class="line"><span class="string">SDK could not be set up. Relocate script failed. Abort!</span></span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<h1 id="找问题"><a href="#找问题" class="headerlink" title="找问题"></a>找问题</h1><p>既然是find出现的问题，还是+111这种，直接搜索install_script.sh里面“+111”有这么一条：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">executable_files=$(<span class="variable">$SUDO_EXEC</span> find <span class="string">"<span class="variable">$native_sysroot</span>"</span> -<span class="built_in">type</span> f -perm +111 -<span class="built_in">exec</span> <span class="built_in">printf</span> <span class="string">"\"%s\" "</span> &#123;&#125; \; )</span><br></pre></td></tr></table></figure>
-<p>我寻思不对啊，网上找了一圈都说+号可以用，表示权限中任意一个1匹配<br></p>
-<h1 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h1><p>在我重新百度了好久之后，找到了解决办法就是：</p>
-<blockquote>
-<p>用”/“代替”+”</p>
-</blockquote>
-<p>可以，很顶的操作，确实有效。<br>原话是这么说的：</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">perm +mode</span><br><span class="line">              This  is  no  longer  supported  (and  has been deprecated since</span><br><span class="line">              2005).  Use -perm &#x2F;mode instead.</span><br></pre></td></tr></table></figure>
-<p>所以这么看来网上那些复制人都是2005年的老古董咯</p>
-]]></content>
-      <categories>
-        <category>操作系统</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
