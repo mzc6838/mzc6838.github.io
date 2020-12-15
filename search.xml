@@ -247,4 +247,33 @@ public int getItemCount() {
         <tag>verilog</tag>
       </tags>
   </entry>
+  <entry>
+    <title>RGB颜色转换为16bits颜色的方法</title>
+    <url>/2020/12/15/RGB%E9%A2%9C%E8%89%B2%E8%BD%AC%E6%8D%A2%E4%B8%BA16bit%E9%A2%9C%E8%89%B2%E7%9A%84%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h1><p>在使用MPS2自带的显示屏时，其中有一个方法用来在LCD上显示一张Bitmap，要求其颜色格式为16bits的颜色。由于以前都是使用RGB颜色，现在突然要使用16bits颜色，并不熟悉，所以就去了解了一下。</p>
+<a id="more"></a>
+
+<h1 id="16bits颜色格式"><a href="#16bits颜色格式" class="headerlink" title="16bits颜色格式"></a>16bits颜色格式</h1><p>按照一篇博客中的说法，RGB颜色是24位的，要将24位颜色转换为16位，需要将每种颜色的值进行移位并舍去部分。具体过程如下：  </p>
+<ul>
+<li>红色(R)右移3位</li>
+<li>绿色(G)右移2位</li>
+<li>蓝色(B)右移3位  </li>
+</ul>
+<p>正常24bits颜色如下：  </p>
+<center><font style="color: red;">RRRR RRRR </font><font style="color: green;">GGGG GGGG </font><font style="color: blue;">BBBB BBBB</font></center>
+按照上述移位过程后，按原来的RGB顺序组合即为16bits颜色  
+<center><font style="color: red;">RRRR R</font><font style="color: green;">GGG GGG</font><font style="color: blue;">B BBBB</font></center>
+
+<blockquote>
+<p>参考博文: <a href="https://www.cnblogs.com/eruca520/p/10189909.html" target="_blank" rel="noopener">如何将24位RGB颜色转换16位RGB颜色</a> </p>
+</blockquote>
+<h1 id="转换方法"><a href="#转换方法" class="headerlink" title="转换方法"></a>转换方法</h1><p>由于位数并不对齐（指会出现5bits、6bits这种位宽的数据），在转换时需要使用位运算：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">unsigned</span> short <span class="title">RGB2bit</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">char</span> R, <span class="keyword">unsigned</span> <span class="keyword">char</span> G, <span class="keyword">unsigned</span> <span class="keyword">char</span> B)</span></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> ((R &gt;&gt; <span class="number">3</span>) &lt;&lt; <span class="number">11</span>) | ((G &gt;&gt; <span class="number">2</span>) &lt;&lt; <span class="number">5</span>) | (B &gt;&gt; <span class="number">3</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>算法</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
 </search>

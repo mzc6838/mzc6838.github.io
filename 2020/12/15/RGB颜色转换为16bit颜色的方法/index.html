@@ -24,19 +24,20 @@
     var CONFIG = {"hostname":"mzc6838.github.io","root":"/","scheme":"Gemini","version":"7.7.1","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"changyan","storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="1234567891011121314151617181920212223242526272829303132import Human, Furry, Dragonfrom Sport import pingpongfrom Instruments import pianofrom Games import computerGamesclass mzc6838(Human, Furry, Drag">
-<meta property="og:type" content="website">
-<meta property="og:title" content="关于我">
-<meta property="og:url" content="http://mzc6838.github.io/about/index.html">
+  <meta name="description" content="起因在使用MPS2自带的显示屏时，其中有一个方法用来在LCD上显示一张Bitmap，要求其颜色格式为16bits的颜色。由于以前都是使用RGB颜色，现在突然要使用16bits颜色，并不熟悉，所以就去了解了一下。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RGB颜色转换为16bits颜色的方法">
+<meta property="og:url" content="http://mzc6838.github.io/2020/12/15/RGB%E9%A2%9C%E8%89%B2%E8%BD%AC%E6%8D%A2%E4%B8%BA16bit%E9%A2%9C%E8%89%B2%E7%9A%84%E6%96%B9%E6%B3%95/index.html">
 <meta property="og:site_name" content="YY的Blog~">
-<meta property="og:description" content="1234567891011121314151617181920212223242526272829303132import Human, Furry, Dragonfrom Sport import pingpongfrom Instruments import pianofrom Games import computerGamesclass mzc6838(Human, Furry, Drag">
+<meta property="og:description" content="起因在使用MPS2自带的显示屏时，其中有一个方法用来在LCD上显示一张Bitmap，要求其颜色格式为16bits的颜色。由于以前都是使用RGB颜色，现在突然要使用16bits颜色，并不熟悉，所以就去了解了一下。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2020-02-11T03:48:19.000Z">
-<meta property="article:modified_time" content="2020-02-19T15:32:56.137Z">
+<meta property="article:published_time" content="2020-12-15T06:30:28.000Z">
+<meta property="article:modified_time" content="2020-12-15T06:51:16.092Z">
 <meta property="article:author" content="mzc6838">
+<meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://mzc6838.github.io/about/">
+<link rel="canonical" href="http://mzc6838.github.io/2020/12/15/RGB%E9%A2%9C%E8%89%B2%E8%BD%AC%E6%8D%A2%E4%B8%BA16bit%E9%A2%9C%E8%89%B2%E7%9A%84%E6%96%B9%E6%B3%95/">
 
 
 <script id="page-configurations">
@@ -44,12 +45,11 @@
   CONFIG.page = {
     sidebar: "",
     isHome: false,
-    isPost: false
+    isPost: true
   };
 </script>
 
-  <title>关于我 | YY的Blog~
-  </title>
+  <title>RGB颜色转换为16bits颜色的方法 | YY的Blog~</title>
   
 
 
@@ -178,46 +178,142 @@
       <div class="main-inner">
         <div class="content-wrap">
           
-  
-  
 
           <div class="content">
             
 
   <div class="posts-expand">
-    
-    
-    
-    <div class="post-block" lang="zh-CN">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://mzc6838.github.io/2020/12/15/RGB%E9%A2%9C%E8%89%B2%E8%BD%AC%E6%8D%A2%E4%B8%BA16bit%E9%A2%9C%E8%89%B2%E7%9A%84%E6%96%B9%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/ava.jpg">
+      <meta itemprop="name" content="mzc6838">
+      <meta itemprop="description" content="过气程序猿/菜的一批">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="YY的Blog~">
+    </span>
       <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          RGB颜色转换为16bits颜色的方法
+        </h1>
 
-<h1 class="post-title" itemprop="name headline">关于我
-</h1>
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
 
-<div class="post-meta">
+              <time title="创建时间：2020-12-15 14:30:28 / 修改时间：14:51:16" itemprop="dateCreated datePublished" datetime="2020-12-15T14:30:28+08:00">2020-12-15</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h1><p>在使用MPS2自带的显示屏时，其中有一个方法用来在LCD上显示一张Bitmap，要求其颜色格式为16bits的颜色。由于以前都是使用RGB颜色，现在突然要使用16bits颜色，并不熟悉，所以就去了解了一下。</p>
+<a id="more"></a>
+
+<h1 id="16bits颜色格式"><a href="#16bits颜色格式" class="headerlink" title="16bits颜色格式"></a>16bits颜色格式</h1><p>按照一篇博客中的说法，RGB颜色是24位的，要将24位颜色转换为16位，需要将每种颜色的值进行移位并舍去部分。具体过程如下：  </p>
+<ul>
+<li>红色(R)右移3位</li>
+<li>绿色(G)右移2位</li>
+<li>蓝色(B)右移3位  </li>
+</ul>
+<p>正常24bits颜色如下：  </p>
+<center><font style="color: red;">RRRR RRRR </font><font style="color: green;">GGGG GGGG </font><font style="color: blue;">BBBB BBBB</font></center>
+按照上述移位过程后，按原来的RGB顺序组合即为16bits颜色  
+<center><font style="color: red;">RRRR R</font><font style="color: green;">GGG GGG</font><font style="color: blue;">B BBBB</font></center>
+
+<blockquote>
+<p>参考博文: <a href="https://www.cnblogs.com/eruca520/p/10189909.html" target="_blank" rel="noopener">如何将24位RGB颜色转换16位RGB颜色</a> </p>
+</blockquote>
+<h1 id="转换方法"><a href="#转换方法" class="headerlink" title="转换方法"></a>转换方法</h1><p>由于位数并不对齐（指会出现5bits、6bits这种位宽的数据），在转换时需要使用位运算：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">unsigned</span> short <span class="title">RGB2bit</span><span class="params">(<span class="keyword">unsigned</span> <span class="keyword">char</span> R, <span class="keyword">unsigned</span> <span class="keyword">char</span> G, <span class="keyword">unsigned</span> <span class="keyword">char</span> B)</span></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> ((R &gt;&gt; <span class="number">3</span>) &lt;&lt; <span class="number">11</span>) | ((G &gt;&gt; <span class="number">2</span>) &lt;&lt; <span class="number">5</span>) | (B &gt;&gt; <span class="number">3</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+            <div class="social-item">
+              <a target="_blank" class="social-link" href="https://twitter.com/mzc6838">
+                <span class="icon">
+                  <i class="fa fa-twitter"></i>
+                </span>
+
+                <span class="label">Twitter</span>
+              </a>
+            </div>
+
+            <div class="social-item">
+              <a target="_blank" class="social-link" href="/atom.xml">
+                <span class="icon">
+                  <i class="fa fa-rss"></i>
+                </span>
+
+                <span class="label">RSS</span>
+              </a>
+            </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag"><i class="fa fa-tag"></i> 算法</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/10/30/%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%95%B0%E8%BD%AC%E6%8D%A2%E4%B8%BABCD%E7%A0%81%E7%9A%84%E4%B8%80%E7%A7%8D%E7%AE%97%E6%B3%95/" rel="prev" title="二进制数转换为BCD码的一种算法">
+      <i class="fa fa-chevron-left"></i> 二进制数转换为BCD码的一种算法
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
   
 
-</div>
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
-          <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> Human, Furry, Dragon</span><br><span class="line"><span class="keyword">from</span> Sport <span class="keyword">import</span> pingpong</span><br><span class="line"><span class="keyword">from</span> Instruments <span class="keyword">import</span> piano</span><br><span class="line"><span class="keyword">from</span> Games <span class="keyword">import</span> computerGames</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">mzc6838</span><span class="params">(Human, Furry, Dragon)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.age = <span class="string">"undefined"</span></span><br><span class="line">        self.job = <span class="string">"postgraduate"</span></span><br><span class="line">        self.school = <span class="string">"3liuSchool"</span></span><br><span class="line">        self.speciality = [</span><br><span class="line">            <span class="string">"Computer Science"</span>,</span><br><span class="line">            <span class="string">"Software Engineering in Microelectronics"</span></span><br><span class="line">        ]</span><br><span class="line">        self.like()</span><br><span class="line">        self.goodAt()</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">like</span><span class="params">(self)</span>:</span></span><br><span class="line">        Human.program()</span><br><span class="line">        Human.eat()</span><br><span class="line">        Human.sleep()</span><br><span class="line">        computerGames.All</span><br><span class="line">        Furry.Global</span><br><span class="line">        Dragon.west.ALL</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">goodAt</span><span class="params">()</span>:</span></span><br><span class="line">        pingpong.prettyGood</span><br><span class="line">        piano.justSoSo</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    Me = mzc6838()</span><br><span class="line">    Me = theGodOf(Me)</span><br></pre></td></tr></table></figure>
-
-
-      </div>
-      
-      
-      
-    </div>
-    
-
-    
-    
-    
   </div>
 
 
@@ -269,6 +365,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#起因"><span class="nav-number">1.</span> <span class="nav-text">起因</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#16bits颜色格式"><span class="nav-number">2.</span> <span class="nav-text">16bits颜色格式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#转换方法"><span class="nav-number">3.</span> <span class="nav-text">转换方法</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
