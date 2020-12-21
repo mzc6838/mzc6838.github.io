@@ -6,7 +6,7 @@
   <link href="http://mzc6838.github.io/atom.xml" rel="self"/>
   
   <link href="http://mzc6838.github.io/"/>
-  <updated>2020-12-15T06:51:16.092Z</updated>
+  <updated>2020-12-21T06:29:37.821Z</updated>
   <id>http://mzc6838.github.io/</id>
   
   <author>
@@ -15,6 +15,25 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>关于在MPS2上运行编译的文件显示&quot;Unable to open file&quot;的解决办法</title>
+    <link href="http://mzc6838.github.io/2020/12/21/%E5%85%B3%E4%BA%8E%E5%9C%A8MPS2%E4%B8%8A%E8%BF%90%E8%A1%8C%E7%BC%96%E8%AF%91%E7%9A%84%E6%96%87%E4%BB%B6%E6%98%BE%E7%A4%BAUnable-to-open-file%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/"/>
+    <id>http://mzc6838.github.io/2020/12/21/%E5%85%B3%E4%BA%8E%E5%9C%A8MPS2%E4%B8%8A%E8%BF%90%E8%A1%8C%E7%BC%96%E8%AF%91%E7%9A%84%E6%96%87%E4%BB%B6%E6%98%BE%E7%A4%BAUnable-to-open-file%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/</id>
+    <published>2020-12-21T06:20:11.000Z</published>
+    <updated>2020-12-21T06:29:37.821Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h1><p>以ARM公司的MPS2平台编译了一个新的程序，运行这个程序需要将从keil中生成的.axf文件复制到单片机根目录下的SOFTWARE文件夹中，在重启单片机之后UART并没有任何输出信息，查看LOG.TXT文件发现出现了问题：</p><a id="more"></a><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ARM V2M-MPS2 CMSIS-DAP Firmware v2.1.7</span><br><span class="line">Build Date: Aug 19 2015</span><br><span class="line"></span><br><span class="line">MotherBoard Revision C Variant A</span><br><span class="line">MotherBoard Serial Number 0287000101-0054 </span><br><span class="line"></span><br><span class="line">ARM V2M Boot Loader v1.0.0</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Switching on main power...</span><br><span class="line"></span><br><span class="line">Configuring motherboard (rev C, var A)...</span><br><span class="line"></span><br><span class="line">Reading Board File \MB\HBI0263C\AN511\an511_v1.txt</span><br><span class="line"></span><br><span class="line">Configuring FPGA from file \MB\HBI0263C\AN511\an511_v1.rbf</span><br><span class="line">FPGA config: PASSED</span><br><span class="line"></span><br><span class="line">OSCCLK config: PASSED</span><br><span class="line"></span><br><span class="line">Writing SCC 0x00000010 with board revision C</span><br><span class="line">Writing SCC 0x00000000 with 0x00000001</span><br><span class="line"></span><br><span class="line">Reading images file \MB\HBI0263C\AN511\images.txt</span><br><span class="line">Writing ELF File \SOFTWARE\cortex_m3_cpp.axf</span><br><span class="line">Unable to open file</span><br><span class="line">ERROR: Failed to Write File \SOFTWARE\cortex_m3_cpp.axf to Address 0x0</span><br><span class="line"></span><br><span class="line">End of log file.</span><br></pre></td></tr></table></figure><p>很奇怪，一开始以为是哪里参数设定有问题，或者是编译目标平台选错了。但是在再三确定后，问题应该不是出在程序上。</p><h1 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h1><p>keil官方支持页面上有这个问题的解决办法：文件名过长。<br>原话是这样说的：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">In this case, the filename for the image is too long. Verify that the base name of the file is 8 characters or less. The MPS2+ board only supports short (SFN or 8.3) filenames. Feel free to use extra folders to distinguish between different images.</span><br></pre></td></tr></table></figure><p>很迷惑的一个问题，一般真的想不到这方面。将文件名改正后，程序运行正常。<br>附：<a href="https://www.keil.com/support/docs/3976.htm" target="_blank" rel="noopener">keil官方支持页面</a></p>]]></content>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;起因&quot;&gt;&lt;a href=&quot;#起因&quot; class=&quot;headerlink&quot; title=&quot;起因&quot;&gt;&lt;/a&gt;起因&lt;/h1&gt;&lt;p&gt;以ARM公司的MPS2平台编译了一个新的程序，运行这个程序需要将从keil中生成的.axf文件复制到单片机根目录下的SOFTWARE文件夹中，在重启单片机之后UART并没有任何输出信息，查看LOG.TXT文件发现出现了问题：&lt;/p&gt;</summary>
+    
+    
+    
+    
+    <category term="单片机" scheme="http://mzc6838.github.io/tags/%E5%8D%95%E7%89%87%E6%9C%BA/"/>
+    
+  </entry>
   
   <entry>
     <title>RGB颜色转换为16bits颜色的方法</title>
