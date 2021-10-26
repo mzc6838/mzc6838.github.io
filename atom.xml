@@ -6,7 +6,7 @@
   <link href="http://mzc6838.github.io/atom.xml" rel="self"/>
   
   <link href="http://mzc6838.github.io/"/>
-  <updated>2020-12-21T06:29:37.821Z</updated>
+  <updated>2021-10-26T09:20:57.533Z</updated>
   <id>http://mzc6838.github.io/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>AXI DMA传输探究</title>
+    <link href="http://mzc6838.github.io/2021/10/26/AXI%20DMA%E4%BC%A0%E8%BE%93%E6%8E%A2%E7%A9%B6/"/>
+    <id>http://mzc6838.github.io/2021/10/26/AXI%20DMA%E4%BC%A0%E8%BE%93%E6%8E%A2%E7%A9%B6/</id>
+    <published>2021-10-26T08:55:51.000Z</published>
+    <updated>2021-10-26T09:20:57.533Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h1><p>在设计中需要使用DMA从zynq的PS端中的DDR部分将数据高速传输至外设中. 自然会想到使用DMA进行数据交互. 本次设计打算使用DMA对外设中的RAM进行读写操作. 写操作没有任何问题, 但是在进行读操作时总是得不到正确的数据.</p><a id="more"></a><h1 id="出现问题分析"><a href="#出现问题分析" class="headerlink" title="出现问题分析"></a>出现问题分析</h1><p>整体传输波形如下图所示, 传输首先进行一次写216个数据的操作, 紧接着对着216个数据进行读操作. 重复一次.<br><img src="/2021/10/26/AXI%20DMA%E4%BC%A0%E8%BE%93%E6%8E%A2%E7%A9%B6/all_wave2.png" alt="all_wave"><br>注意箭头标出处, <code>M_AXIS_TREADY</code>信号意外拉高了, 在一开始甚至TREADY信号一直保持高电平. 后两次是在读操作传输完毕后仍然保持高电平. 这直接导致外设中的状态机错误识别到TREADY信号而对TDATA进行写数据. 这样的话, 在S2MM传输时, 传输的数据会有<b>4周期</b>的错误数据, 出现在一开始, 则会产生4个0, 出现在传输结束后, 则会产生0,1,2,3这4个错误数据. 其波形如下图所示:<br><img src="/2021/10/26/AXI%20DMA%E4%BC%A0%E8%BE%93%E6%8E%A2%E7%A9%B6/ready1.png" alt="ready1"><br><img src="/2021/10/26/AXI%20DMA%E4%BC%A0%E8%BE%93%E6%8E%A2%E7%A9%B6/ready2.png" alt="ready2"><br>这样造成S2MM接口向主机写入数据出错:<br><img src="/2021/10/26/AXI%20DMA%E4%BC%A0%E8%BE%93%E6%8E%A2%E7%A9%B6/data_trans.png" alt="data_trans"><br><img src="/2021/10/26/AXI%20DMA%E4%BC%A0%E8%BE%93%E6%8E%A2%E7%A9%B6/data_trans2.png" alt="data_trans2"><br>自然, 由串口接收到的数据也是错误的:<br><img src="/2021/10/26/AXI%20DMA%E4%BC%A0%E8%BE%93%E6%8E%A2%E7%A9%B6/data1.png" alt="data1"><br><img src="/2021/10/26/AXI%20DMA%E4%BC%A0%E8%BE%93%E6%8E%A2%E7%A9%B6/data2.png" alt="data2">  </p><h1 id="问题推断过程"><a href="#问题推断过程" class="headerlink" title="问题推断过程"></a>问题推断过程</h1><p>从波形中经过反复验证, 可以确定, AXI_DMA模块中存在一块Buffer(FIFO类), 当TREADY和TVALID同时拉高时, 该FIFO会自动写入TDATA内容, 虽然我们并不想让它进行写入. 但是, 如果不主动拉高TVALID信号, TREADY信号就不会在4周期后拉低, 造成死锁. 在Xilinx的DMA手册上指出:  </p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Note:In the absence of any setup (that is, before it is programmed to run), AXI DMA will pull the s_axis_s2mm_tready signal Low after taking in four beats of streaming data. This will throttle the input data stream. To have a minimum amount of throttling, ensure that the AXI DMA is set up to run much before the actual data arrives.   --PG021: 69</span><br><span class="line">&#96;&#96;&#96;  </span><br><span class="line">但在配置完毕寄存器后, TREADY信号仍然没有主动拉低(从波形可以看出). 故从硬件上不方便进行修正, 那么解决方案如下.</span><br><span class="line"># 解决方案</span><br><span class="line">接收的数组主动多开4个位置.</span><br><span class="line">&#96;&#96;&#96;cpp</span><br><span class="line">    a &#x3D; new int[216];</span><br><span class="line">    b &#x3D; new int[220];   &#x2F;&#x2F; 220 &#x3D; 216 + 4</span><br><span class="line"></span><br><span class="line">    dma.writeReg(MOBILENET_S00_AXI_SLV_CONFIG_REG_OFFSET, 0x7);</span><br><span class="line"></span><br><span class="line">    dma.trans_DMA_device(a, 216); &#x2F;&#x2F; W</span><br><span class="line"></span><br><span class="line">    dma.writeReg(MOBILENET_S00_AXI_SLV_CONFIG_REG_OFFSET, 0x5);</span><br><span class="line"></span><br><span class="line">    dma.trans_device_DMA(b, 300); &#x2F;&#x2F; R</span><br><span class="line"></span><br><span class="line">    for (int i &#x3D; 0; i &lt; 216; i++)&#123;</span><br><span class="line">        cout &lt;&lt; b[i + 4] &lt;&lt; &quot; &quot;;    &#x2F;&#x2F; offset</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure><p>这样虽然在硬件上没有做出对应的解决办法, 但至少在软件中得到了正确的结果.</p>]]></content>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;起因&quot;&gt;&lt;a href=&quot;#起因&quot; class=&quot;headerlink&quot; title=&quot;起因&quot;&gt;&lt;/a&gt;起因&lt;/h1&gt;&lt;p&gt;在设计中需要使用DMA从zynq的PS端中的DDR部分将数据高速传输至外设中. 自然会想到使用DMA进行数据交互. 本次设计打算使用DMA对外设中的RAM进行读写操作. 写操作没有任何问题, 但是在进行读操作时总是得不到正确的数据.&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="FPGA" scheme="http://mzc6838.github.io/categories/FPGA/"/>
+    
+    <category term="zynq" scheme="http://mzc6838.github.io/categories/FPGA/zynq/"/>
+    
+    
+    <category term="AXI" scheme="http://mzc6838.github.io/tags/AXI/"/>
+    
+    <category term="DMA" scheme="http://mzc6838.github.io/tags/DMA/"/>
+    
+    <category term="FPGA" scheme="http://mzc6838.github.io/tags/FPGA/"/>
+    
+    <category term="zynq" scheme="http://mzc6838.github.io/tags/zynq/"/>
+    
+  </entry>
   
   <entry>
     <title>关于在MPS2上运行编译的文件显示&quot;Unable to open file&quot;的解决办法</title>
