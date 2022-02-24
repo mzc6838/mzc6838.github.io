@@ -315,4 +315,56 @@ public int getItemCount() {
         <tag>zynq</tag>
       </tags>
   </entry>
+  <entry>
+    <title>目标检测中的mAP是怎么计算出来的</title>
+    <url>/2022/02/24/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84mAP%E6%98%AF%E6%80%8E%E4%B9%88%E8%AE%A1%E7%AE%97%E5%87%BA%E6%9D%A5%E7%9A%84/</url>
+    <content><![CDATA[<h1 id="起因"><a href="#起因" class="headerlink" title="起因"></a>起因</h1><p>通常情况下，在标准的分类模型中，衡量一个模型对某一类的分类准确度，只需要通过Softmax等方式将预测占比输出，即为该类的识别准确度。但是在目标检测任务中，神经网络模型执行的不仅仅是分类任务，还需要把目标所在的位置以坐标的形式作为预测之一返回。那么在目标检测中，通常使用mAP这一参数衡量一个模型的检测准确度。</p>
+<a id="more"></a>
+
+<h1 id="mAP是什么"><a href="#mAP是什么" class="headerlink" title="mAP是什么"></a>mAP是什么</h1><p>mAP全称：mean Average Precision，即各类别的AP平均值。AP则为PR曲线下为面积。PR曲线表示查准率(Precision)和查全率(Recall)绘制出的曲线。  </p>
+<h1 id="mAP如何计算"><a href="#mAP如何计算" class="headerlink" title="mAP如何计算"></a>mAP如何计算</h1><h2 id="Precision-与-Recall"><a href="#Precision-与-Recall" class="headerlink" title="Precision 与 Recall"></a>Precision 与 Recall</h2><p>为了计算出查准率和查全率，有几个参数需要在预测后与Ground Truth做对比，以下参数需要通过后处理计算出：  </p>
+<table>
+<thead>
+<tr>
+<th align="center">缩写</th>
+<th align="center">全称</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">TP</td>
+<td align="center">True Positive</td>
+<td align="left">$IoU &gt; IoU_{threshold}$的检测框数量，对于同一GT只计算一次</td>
+</tr>
+<tr>
+<td align="center">FP</td>
+<td align="center">False Positive</td>
+<td align="left">$IoU &lt; IoU_{threshold}$的检测框数量或检测到同一个GT的多余检测框的数量</td>
+</tr>
+<tr>
+<td align="center">FN</td>
+<td align="center">False Negative</td>
+<td align="left">没有被检测到的GT数量</td>
+</tr>
+<tr>
+<td align="center">TN</td>
+<td align="center">True Negative</td>
+<td align="left">在目标识别中用不到</td>
+</tr>
+</tbody></table>
+<p>故对于查准率和查全率，有如下两个等式用于计算：<br>$Precision = \frac{TP}{TP + FP}$<br><br>$Recall = \frac{TP}{TP + FN}$<br><br>由Precision和Recall绘制出的曲线如下图，下图是VOC2012中选取的自行车类别的Precision-Recall图：<br><img src="/2022/02/24/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84mAP%E6%98%AF%E6%80%8E%E4%B9%88%E8%AE%A1%E7%AE%97%E5%87%BA%E6%9D%A5%E7%9A%84/bicycle.png" alt>  </p>
+<h2 id="AP-与-mAP"><a href="#AP-与-mAP" class="headerlink" title="AP 与 mAP"></a>AP 与 mAP</h2><p>如上文所述，AP为PR曲线中由曲线与坐标轴围成的面积大小，通常情况下使用插值的方式计算该部分的面积。<br>图中为单一自行车类别的AP值，那么整体模型在数据集VOC2012上的mAP则为所有类别的AP的均值，作为最终的mAP值。<br>通过计算mAP，可以得知一个模型在对应数据集上针对每个类别的预测概率与预测框的位置偏移情况，如下图所示：<br><img src="/2022/02/24/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%9A%84mAP%E6%98%AF%E6%80%8E%E4%B9%88%E8%AE%A1%E7%AE%97%E5%87%BA%E6%9D%A5%E7%9A%84/mAP.png" alt><br>可见对于瓶子(bottle)类别，训练出的目标检测模型对这个类别的识别度不是很好，而对于猫(cat)和狗(dog)等类别，识别率都是非常高的。网络整体的mAP达到了79.23%。</p>
+<h1 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1><blockquote>
+<p>[1] <a href="https://www.zhihu.com/question/53405779" target="_blank" rel="noopener">目标检测中的mAP是什么含义？</a><br>[2] <a href="https://github.com/bubbliiiing/mobilenet-ssd-keras" target="_blank" rel="noopener">mobilenet-ssd-keras</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>python</category>
+        <category>机器学习</category>
+      </categories>
+      <tags>
+        <tag>SSD</tag>
+        <tag>Keras</tag>
+      </tags>
+  </entry>
 </search>
